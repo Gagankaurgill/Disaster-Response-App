@@ -39,17 +39,20 @@ def clean_data(df):
         # convert column from string to numeric
         categories[column] = pd.to_numeric(categories[column])
         # convert any values different than 0 and 1 to 1
-        categories[column].loc[(categories[column]!=0)&(categories[column]!=1)]=1
+        categories[column].loc[(categories[column] != 0) & (categories[column] != 1)] = 1
 
 
     # drop the original categories column from `df`
-    df = df.drop(['categories','original'],axis=1)
+    df = df.drop(['categories','original'],axis = 1)
 
     # concatenate the original dataframe with the new `categories` dataframe
-    df = pd.concat([df,categories],axis=1)
+    df = pd.concat([df,categories],axis = 1)
 
     # drop duplicates
-    df.drop_duplicates(inplace=True)
+    df.drop_duplicates(inplace = True)
+    
+    #drop NA data
+    df.dropna(axis = 0,how = 'all',subset = category_colnames,inplace = True)
 
     return df
 

@@ -98,19 +98,18 @@ def build_model():
     pipeline = Pipeline([
                 ('vect',CountVectorizer(tokenizer=tokenize)),
                 ('tfidf',TfidfTransformer()),
-                ('clf',MultiOutputClassifier(RandomForestClassifier(n_jobs=-1)))
+                ('clf',MultiOutputClassifier(RandomForestClassifier()))
              ])
 
-    #   Pipeline Hyperparamenter tuning - remove '#' to include other parameters as you like. 
-    #   Training could take several minutes or hours depending on your device and hyperparameter choice
-    parameters = {
-        'clf__estimator__n_estimators':[100,200],
-        'clf__estimator__max_depth' :[5]
-        }
+  
+    #parameters = {
+        #'clf__estimator__n_estimators':[100,200],
+        #'clf__estimator__max_depth' :[5]
+       # }
 
-    optimizer = GridSearchCV(pipeline, param_grid=parameters)
+    
 
-    return optimizer
+    return pipeline
 
 def evaluate_model(model, X_test, y_test, category_names):
     """Evaluates the performance of trained model.

@@ -1,15 +1,16 @@
 import json
 import plotly
 import pandas as pd
-
+import re
 from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import word_tokenize
-
+from nltk.corpus import stopwords
 from flask import Flask
 from flask import render_template, request, jsonify
 from plotly.graph_objs import Bar
 from sklearn.externals import joblib
 from sqlalchemy import create_engine
+import seaborn as sns
 
 
 app = Flask(__name__)
@@ -71,6 +72,41 @@ def index():
     category_counts = df[df.columns[3:]].sum().sort_values(ascending=False)
     category_name = list(category_counts.index)
     
+    # categorized count of messages based on genre
+    direct_cat_count = {}
+    news_cat_count = {}
+    social_cat_count = {}
+    directdf = df[df['genre'] == 'direct']
+    newsdf = df[df['genre'] == 'news']
+    socialdf = df[df['genre'] == 'social']
+    for col in df.columns[3:]:
+        x = directdf[directdf[col] == True][col].count()
+        y = newsdf[newsdf[col] == True][col].count()
+        z = socialdf[socialdf[col] == True][col].count()
+        direct_cat_count[col] = x 
+        news_cat_count[col] = y 
+        social_cat_count[col] = z 
+    trace_direct = {
+    'x' : list(direct_cat_count.keys()),
+    'y' : list(direct_cat_count.values()),
+    'name' : "Direct",
+    'type' : "bar",
+    'opacity' :0.5
+    };
+    trace_news = {
+        'x' : list(news_cat_count.keys()),
+        'y' : list(news_cat_count.values()),
+        'name' : "News",
+        'type' : "bar",
+        'opacity' :0.5
+    };
+    trace_social = {
+        'x' : list(social_cat_count.keys()),
+        'y' : list(social_cat_count.values()),
+        'name' : "Social",
+        'type' : "bar",
+        'opacity' :0.5
+    };
     
     # create visuals
     graphs = [
@@ -109,7 +145,24 @@ def index():
                 },
                 'template': "seaborn"
             }
+        },
+        {
+            'data': [trace_direct,trace_news,trace_social],
+
+            'layout': {
+                'title': 'Distribution of Message based on Genres ',
+                'yaxis': {
+                    'title': "Count"
+                },
+                'xaxis': {
+                    'title': "Category"
+                },
+                'barmode':"stack",
+                'showlegend':True,
+                'template': "seaborn"
+            }
         }
+        
     ]
     
     # encode plotly graphs in JSON
