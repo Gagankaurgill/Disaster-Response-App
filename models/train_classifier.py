@@ -23,13 +23,13 @@ import warnings
 warnings.filterwarnings("ignore")
 
 def load_data(database_filename):
-    """Function to load cleaned data from app database as dataframe.
+    """Loads cleaned data from database as a dataframe.
     
     Args: 
-        database_filename (str): saved database table
+        database_filename: saved database table
     Returns:
-        X (series):             messages to classify.
-        Y (dataframe):          dataframe containing message categories.
+        X:                      series containing messages to classify.
+        Y:                      dataframe containing message categories.
         category_names:         column list of columns in Y dataframe
         
     """
@@ -49,13 +49,12 @@ def load_data(database_filename):
 
 
 def tokenize(text):
-    """Function converts raw messages into tokens, cleans the tokens and removes
-        stopwords.
+    """Cleans the messages, removes stopwords and converts them into tokens.
     
     Args:
-        text(str): raw message data to be classified.
+        text: a string raw message data to be classified.
     Returns:
-        clean_tokens(list): cleaned list of tokens(words).
+        clean_tokens: cleaned list of tokens(words).
         
     """
     #check for urls in the text
@@ -86,12 +85,12 @@ def tokenize(text):
 
 def build_model():
     """Builds the machine learning pipeline containing transformers and 
-        a final MultiOutput estimator.
+        a MultiOutput estimator.
         
     Args: 
         None.
     Returns:
-        pipeline: defined machine learning pipeline.
+        pipeline: machine learning pipeline.
     
     """
 
@@ -107,8 +106,6 @@ def build_model():
         #'clf__estimator__max_depth' :[5]
        # }
 
-    
-
     return pipeline
 
 def evaluate_model(model, X_test, y_test, category_names):
@@ -121,7 +118,7 @@ def evaluate_model(model, X_test, y_test, category_names):
         category_names: category names.
         
     Returns:
-        prints out metric scores - Precision, Recall and Accuracy.
+        prints out metric scores - Precision, Recall ,f1-Score and Accuracy.
         
     """
     #   predict classes for X_test
@@ -129,7 +126,9 @@ def evaluate_model(model, X_test, y_test, category_names):
 
     #   print out model precision, recall and accuracy
     print(classification_report(y_test, prediction, target_names=category_names))
-
+    # accuracy score
+    accuracy = (prediction == y_test.values).mean()
+    print('The model accuracy score is {:.3f}'.format(accuracy))
 
 def save_model(model, model_filepath):
     """ This function saves the pipeline to local disk """

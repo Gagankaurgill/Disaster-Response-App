@@ -6,6 +6,15 @@ import numpy as np
 from sqlalchemy import create_engine
 
 def load_data(messages_data,categories_data):
+    """Loads cleaned data from csv files as a dataframe.
+    
+    Args: 
+        messages_data:              file path for file which stores messages data.
+        categories_data:            file path for file which stores categories data.
+    Returns:
+        df:                         a dataframe with combined data from messages and categories data files.
+        
+    """
     # load messages dataset
     messages = pd.read_csv(messages_data)
     messages.head()
@@ -19,7 +28,14 @@ def load_data(messages_data,categories_data):
     return df
 
 def clean_data(df):
-
+     """Cleans the dataframe for redundant and unnecessary data, handles categorical columns.
+    
+    Args:
+        df:         dataframe with raw data.
+    Returns:
+        df:         cleaned dataframe of messages and categories.
+        
+    """
     # create a dataframe of the 36 individual category columns
     categories = df['categories'].str.split(";",expand=True)
 
@@ -57,6 +73,7 @@ def clean_data(df):
     return df
 
 def save_data(df,database_filepath):
+     """ Saves the dataframe as a table to sqlLite database file """
     engine = create_engine('sqlite:///'+database_filepath)
     table_name = os.path.basename(database_filepath).split('.')[0]
     df.to_sql(table_name, engine, index=False,if_exists = 'replace')
