@@ -59,22 +59,22 @@ Flask Application has two main features
 1. It provides visualizations of the data provided for the project.
 2. It also allows a user to enter a message and determine its category classification. 
 
-![Input](images/Enter_message.PNG)
+![Input](images/Enter_message.png)
 Figure 1. Input field takes in new messages.
 
-![Genre Graph](images/Graph_Genre.PNG)
+![Genre Graph](images/Graph_Genre.png)
 Figure 2. Distribution of Message Genres.
 
-![Category Graph](images/Graph_Category.PNG)
+![Category Graph](images/Graph_Category.png)
 Figure 3. Distribution of Message Categories.
 
-![Category-Genre Graph](images/Graph_CategoryGenre.PNG)
+![Category-Genre Graph](images/Graph_CategoryGenre.png)
 Figure 4. Distribution of Message based on Genres .
 
-![Example Message](images/Example_Message.PNG)
+![Example Message](images/Example_Message.png)
 Figure 5. Sample Message for Classification
 
-![Example Classification](images/Example_Classification.PNG)
+![Example Classification](images/Example_Classfication.png)
 Figure 5. Sample Message Category Classification
 
 ## File Structure
