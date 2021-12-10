@@ -59,6 +59,18 @@ Flask Application has two main features
 1. It provides visualizations of the data provided for the project.
 2. It also allows a user to enter a message and determine its category classification. 
 
+![input](images/Enter_message.PNG)
+Figure 1. Input field takes in new messages.
+
+![GenreGraph](img/Graph_Genre.png)
+Figure 2. Distribution of Message Genres.
+
+![CategoryGraph](img/Graph_Category.png)
+Figure 3. Distribution of Message Categories.
+
+![CategoryGenreGraph](img/Graph_CategoryGenre.png)
+Figure 4. Distribution of Message based on Genres .
+
 ## File Structure
 An overview of folders and files structure for the app
 

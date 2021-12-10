@@ -15,7 +15,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 from sklearn.model_selection import train_test_split
 from sklearn.multioutput import MultiOutputClassifier
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import classification_report
 import pickle
@@ -97,16 +97,20 @@ def build_model():
     pipeline = Pipeline([
                 ('vect',CountVectorizer(tokenizer=tokenize)),
                 ('tfidf',TfidfTransformer()),
-                ('clf',MultiOutputClassifier(RandomForestClassifier()))
+                ('clf',MultiOutputClassifier(DecisionTreeClassifier()))
              ])
 
-  
-    #parameters = {
-        #'clf__estimator__n_estimators':[100,200],
-        #'clf__estimator__max_depth' :[5]
-       # }
+    parameters = {
+        'clf__estimator__max_depth':[2,5,10]
+        }
+    
+    model = GridSearchCV(  estimator = pipeline,
+                                param_grid = parameters,
+                                cv = 2,
+                                verbose =3
+                               )
 
-    return pipeline
+    return model
 
 def evaluate_model(model, X_test, y_test, category_names):
     """Evaluates the performance of trained model.
